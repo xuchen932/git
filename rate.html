@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>rate组件 </title>
+    <link rel="stylesheet" href="./rate.css">
+    <link rel="stylesheet" href="./icon.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <el-rate v-if="!disabled" :max=3.7 disabled :allowhalf=true></el-rate>
+    </div>
+    <script>
+    Vue.component("el-rate", {
+        template:`<div class="rate">
+                    <span class="demonstration">默认不区分颜色</span>
+                    <div class="el-rate" v-if="allowhalf">
+                        <span class="el-rate__item">
+                            <i class="el-rate__icon el-icon-star-off" :colors></i>
+                        </span>
+                        <span class="el-rate__item">
+                            <i class="el-rate__icon el-icon-star-off"></i>
+                        </span>
+                        <span class="el-rate__item">
+                            <i class="el-rate__icon el-icon-star-off"></i>
+                        </span>
+                        <span class="el-rate__item">
+                            <i class="el-rate__icon el-icon-star-off"></i>
+                        </span>
+                        <span class="el-rate__item">
+                            <i class="el-rate__icon el-icon-star-off"></i>
+                        </span>
+                        <span class="el-rate__text" v-if="disabled" >{{max}}</span>
+                    </div>
+                </div>`,
+                props:{
+                    max:{
+                        type:Number,
+                        default:5
+                    },
+                    disabled:{
+                        type:Boolean,
+                        default:false
+                    },
+                    allowhalf :{
+                        type:Boolean,
+                        default:false
+                    },
+                    colors:{
+                        type:Array,
+                        default:['#F7BA2A', '#F7BA2A', '#F7BA2A']
+                    }
+                },
+                computed: {
+                    
+                }
+    }),
+    new Vue({
+        el:"#app",
+        data:{
+            disabled:false
+        }
+    })
+
+    
+    </script>
+</body>
+</html>

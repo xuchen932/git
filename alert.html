@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>alert组件</title>
+    <link rel="stylesheet" href="./icon.css">
+    <link rel="stylesheet" href="./alert.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <el-alert type="success" title="123" description="辅助性文字"></el-alert>
+        <el-alert v-if="closeable" type="info" title="234"  closetext="关闭" @close="close"></el-alert>
+        <el-alert type="warning" title="345" :showicon="false"></el-alert>
+        <el-alert type="error" title="456" description="你真好，你真是个大傻吊">
+            <div>你真帅</div>   
+        </el-alert>
+
+    </div>
+    <script>
+        var TYPE_ICON={
+            success : "circle-check",
+            warning : "warning",
+            info : "info",
+            error : "error"
+        }
+        Vue.component("el-alert",{
+            template:`
+                <div class="el-alert" :class="[typeClass]">
+                    <i class="el-alert__icon" :class="[iconClass]" v-if="showicon"></i>
+                    <div class="el-alert__content">
+                        <span class="el-alert__title">{{title}}</span>
+                        <slot>
+                            <p class="el-alert__description">{{description}}</p>
+                        </slot>
+                        <i class="el-alert__closebtn" :class=[closeClass] v-if="closeable" @click="clickHandle">{{closetext}}</i>
+                    </div>
+                </div>`,
+                props: {
+                    type:{
+                        type:String,
+                        default:"info"
+                    },
+                    title:{
+                        type:String,
+                        required:true
+                    },
+                    closeable:{
+                        type:Boolean,
+                        default:true
+                    },
+                    closetext:{
+                        type:String,
+                        default:""
+                    },
+                    showicon:{
+                        type:Boolean,
+                        default:true
+                    },
+                    description:{
+                        type:String,
+                        default:""
+                    }
+                },
+                computed: {
+                    typeClass(){
+                        return "el-alert--" + this.type
+                    },
+                    iconClass(){
+                        return "el-icon-" +  TYPE_ICON[this.type]
+                    },
+                    closeClass(){
+                        return this.closetext ? "is-customed" : "el-icon-close"
+                    },
+                },
+                methods:{
+                    clickHandle(){
+                        this.$emit("close")
+                    }
+                }
+        }),
+        new Vue({
+            el:"#app",
+            data:{
+                closeable:true
+            },
+            methods:{
+                close(){
+                    this.closeable = false
+                }
+            }
+        })
+    </script>
+</body>
+</html>
